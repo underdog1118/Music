@@ -122,9 +122,9 @@ public class Ink implements I.Show {
         public void show(Graphics g) {
             this.drawN(g,n);
             //show the bbox
-            bbox.draw(g);
-            g.setColor(Color.BLUE);
-            drawNDots(g,n);
+//            bbox.draw(g);
+//            g.setColor(Color.BLUE);
+//            drawNDots(g,n);
 
         }
     }

@@ -11,4 +11,5 @@ public class UC {
 
     public static final int dotThreshold = 5;
     public static final String ShapeDBFilename = "ShapeDB.dat";
+    public static final int noBid = 1000;
 }

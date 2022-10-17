@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class shapeTrainer extends Window {
+    public static void main(String[] args){(Window.PANEL = new shapeTrainer()).launch();}
     public shapeTrainer() {
         super("ShapeTrainer", UC.initialWindowHeight, UC.initialWindowHeight);
     }
@@ -77,7 +78,7 @@ public class shapeTrainer extends Window {
 //    }
         public void mouseReleased(MouseEvent me){   //simplfy the code above
             Ink ink = new Ink();
-            Shape.DB.train(currName, ink.norm);
+            Shape.DB.train(currName, ink); //??
             setState();
             repaint();
         }

@@ -95,13 +95,23 @@ public class Shape implements Serializable {
                 return  bestSoFar;
             }
 
-            public void train(Ink.Norm norm){
-                if(bestDist(norm) < UC.noMatchDist){
-                    bestMatch.blend(norm);
+            public void train(Ink ink){
+                if (isDeletePrototype(ink)) {return;}
+                if(bestDist(ink.norm) < UC.noMatchDist){
+                    bestMatch.blend(ink.norm);
                 }else {
                     add(new Shape.Prototype());
                 }
             }
+            public boolean isDeletePrototype(Ink ink){   //If true, it deletes
+                int dot = UC.dotThreshold;
+                if(ink.vs.size.x > dot || ink.vs.size.y > dot)return false ;
+                if(ink.vs.loc.y > m +w){return false;}
+                int iProto = ink.vs.loc.x / (m+w);
+                if(iProto >= size()){return false;}
+                remove(iProto);
+                return true;
+        }
             public void show(Graphics g){
                 g.setColor(Color.BLUE);
                 for (int i = 0; i < size(); i++) {
@@ -125,9 +135,14 @@ public class Shape implements Serializable {
             return DB.get(name);
         }
 
-        public void train(String name, Ink.Norm norm){
-            if(isLegal(name)) {forceGet(name).prototypes.train(norm);}
+        public void train(String name, Ink ink){
+            if(isLegal(name)) {forceGet(name).prototypes.train(ink);}  //??
         }
+//        public boolean isDeletePrototype(Ink ink){   //If true, it deletes
+//            int dot = UC.dotThreshold;
+//            if(ink.vs.size.x > dot || ink.vs.size.y > dot){return false;}
+//            if(ink.vs.loc.y > m+w){return false;}
+//        }
         public static boolean isLegal(String name){return !(name.equals("")) && !name.equals("DOT");}
 
         public static DataBase load(){    //change the hashmap copy from above to Datebase

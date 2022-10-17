@@ -91,6 +91,15 @@ public class G {
             //loc.x loc.y是这个长方形最下面的点
         }
 
+        public int xL(){return loc.x;}
+        public int xM(){return loc.x + size.x / 2 ;}
+        public int xH(){return loc.x + size.x ;}
+
+        public int yL(){return loc.y;}
+        public int yM(){return loc.y + size.y / 2 ;}
+        public int yH(){return loc.y + size.y;}
+
+
         public void resize(int x,int y){
             //如果这个点在原点的正向，要调整
             if(x>loc.x&& y > loc.y){

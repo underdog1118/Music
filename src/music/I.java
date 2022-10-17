@@ -1,5 +1,7 @@
 package music;
 
+import reaction.Gesture;
+
 import java.awt.*;
 
 //interface的包，in a way 等于 类（class）
@@ -14,4 +16,7 @@ public interface I {
     public interface Show{
         public void show(Graphics g);
     }
+    public interface Act{public void act(Gesture gest);}
+    public interface React extends Act{public int bid(Gesture gest);}
 }
+
