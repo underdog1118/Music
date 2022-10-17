@@ -28,13 +28,19 @@ public abstract class Reaction implements I.React {
     public static Reaction best(Gesture g){
         return byShape.getList(g.shape).lowBid(g);
     }
+    public static void nuke() {      //resetting for undo
+        byShape = new Map();
+        initialReactions.enable();
+    }
     //---------------------List----------------------
     public static class List extends ArrayList<Reaction> {
         public void addReaction(Reaction r){
             add(r);
             r.enable();
         }
-
+        public void enable(){
+            for (Reaction r: this){r.enable();}
+        }
         public void removeReaction(Reaction r){
             remove(r);
             r.disable();
@@ -56,6 +62,9 @@ public abstract class Reaction implements I.React {
                 }
             }
             return res;
+        }
+        public static Reaction best(Gesture g) {
+            return byShape.getList(g.shape).lowBid(g);
         }
     }
 
