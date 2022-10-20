@@ -11,9 +11,11 @@ public class Staff extends Mass {
     public int iStaff;
     public Staff.Fmt fmt;
 
-    public Staff(){
+    public Staff(Sys sys, int iStaff, Staff.Fmt fmt){
         super("BACK");
-
+        this.sys = sys;
+        this.iStaff = iStaff;
+        this.fmt = fmt;
     }
 
 

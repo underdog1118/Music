@@ -49,6 +49,7 @@ public class Gesture {
     private void doGesture(){
         Reaction r = Reaction.List.best(this);
         if(r != null){
+            System.out.println("Gesture : " + r.shape.name); //just test
             UNDO.add(this);
             r.act(this);
         }

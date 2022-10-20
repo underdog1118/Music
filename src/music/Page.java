@@ -16,10 +16,30 @@ public class Page extends Mass {
         this.sysFmt = sysFmt;
     }
 
+    public void addNewsys(){
+        sysList.add(new Sys(this, sysList.size(), sysFmt));
+    }
+
+    public void addNewStaff(int yOffset){
+        Staff.Fmt fmt = new Staff.Fmt();
+        int n = sysFmt.size();
+        sysFmt.add(fmt);
+        sysFmt.staffOffset.add(yOffset);
+        for (int i = 0; i < sysList.size(); i++) {
+            Sys sys = sysList.get(i);
+            sysList.get(i).staffs.add(new Staff(sys, n, fmt));
+
+        }
+    }
+
     int sysTop(int iSys) {return margins.top + iSys * (sysFmt.height() + sysGap);}
 
     public void show(Graphics g){
-        WTF}
+        for (int i = 0; i < sysList.size(); i++) {
+            sysFmt.showAt(g, sysTop(i));
+        }
+    }
+
     //-----------Margins---------------
     public static class Margins {
         private static int M = 50;
