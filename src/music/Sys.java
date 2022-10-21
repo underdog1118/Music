@@ -5,6 +5,8 @@ import reaction.Mass;
 import java.awt.*;
 import java.util.ArrayList;
 
+import static sandbox.Music.PAGE;
+
 public class Sys extends Mass {
     public ArrayList<Staff> staffs = new ArrayList<>();
     public Page page;
@@ -20,6 +22,11 @@ public class Sys extends Mass {
     }
 
     int yTop() {return page.sysTop(iSys);}
+
+    public void show(Graphics g){
+        int y = yTop(), x = PAGE.margins.left;
+        g.drawLine(x, y, x, y + fmt.height());
+    }
 
     //------------Fnt---------------
     public static class Fmt extends ArrayList<Staff.Fmt>{

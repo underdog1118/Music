@@ -17,6 +17,7 @@ public class Gesture {
             Gesture gest = Gesture.getNew(ink);    //can fail if unrecognized
             Ink.BUFFER.clear();
             if (gest != null){
+                System.out.println("Saw: " + gest.shape.name);  //just test
 //                Reaction r = Reaction.best(gest);  //can fail
 //                if (r != null){
 //                    r.act(gest);
@@ -49,7 +50,7 @@ public class Gesture {
     private void doGesture(){
         Reaction r = Reaction.List.best(this);
         if(r != null){
-            System.out.println("Gesture : " + r.shape.name); //just test
+           // System.out.println("Gesture : " + r.shape.name); //just test
             UNDO.add(this);
             r.act(this);
         }
