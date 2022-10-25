@@ -1,6 +1,8 @@
 package music;
 
+import reaction.Gesture;
 import reaction.Mass;
+import reaction.Reaction;
 
 import java.awt.*;
 
@@ -16,7 +18,26 @@ public class Staff extends Mass {
         this.sys = sys;
         this.iStaff = iStaff;
         this.fmt = fmt;
+
+        addReaction(new Reaction("S-S") { //BarLine
+            public int bid(Gesture gesture) {
+                int x = gesture.vs.xM(), y1 =gesture.vs.yL(), y2 = gesture.vs.yM();
+                if (x <PAGE.margins.left || x > PAGE.margins.right){
+                    return UC.noBid;
+                }
+                System.out.println("Top" + y1 + " " + Staff.this.yTop()); //test
+                int d = Math.abs(y1 - Staff.this.yTop()) + Math.abs(y2 - Staff.this.yBot());
+                return (d < 50) ? d : UC.noBid;
+            }
+            public void act(Gesture gesture) {
+                new Bar(Staff.this.sys, gesture.vs.xM());
+            }
+        });
     }
+
+    public int sysOff(){return sys.fmt.staffOffset.get(iStaff);}
+    public int yTop(){return sys.yTop() + sysOff();}
+    public int yBot(){return yTop() + fmt.height();}
 
 
     //-------------Fmt----------------

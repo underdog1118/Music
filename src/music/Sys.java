@@ -18,7 +18,12 @@ public class Sys extends Mass {
         this.page = page;
         this.iSys = iSys;
         this.fmt = fmt;
-
+        for (int i = 0; i < fmt.size(); i++) {
+            addStaff(new Staff(this, i, fmt.get(i))); //add new line in new staffs
+        }
+    }
+    public void addStaff(Staff s){ //add new lines in the new staff
+        staffs.add(s);
     }
 
     int yTop() {return page.sysTop(iSys);}

@@ -14,7 +14,11 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class Music extends Window {
-    static {new Layer("BACK"); new Layer("FORE");}
+    static {
+        new Layer("BACK");
+        new Layer("Note");
+        new Layer("FORE");
+    }
     public static Page PAGE;
 
     public static void main(String[] args) {
