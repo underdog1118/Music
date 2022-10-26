@@ -26,7 +26,8 @@ public class Sys extends Mass {
         staffs.add(s);
     }
 
-    int yTop() {return page.sysTop(iSys);}
+    public int yTop() {return page.sysTop(iSys);}
+    public int yBot() {return staffs.get(staffs.size() - 1).yBot();}
 
     public void show(Graphics g){
         int y = yTop(), x = PAGE.margins.left;

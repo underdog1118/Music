@@ -13,4 +13,5 @@ public class UC {
     public static final String ShapeDBFilename = "ShapeDB.dat";
     public static final int noBid = 1000;
     public static final int Bar2MarginSnap = 20;
+    public static final int defaultStaffSpace = 8;
 }

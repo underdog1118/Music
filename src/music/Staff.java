@@ -27,10 +27,14 @@ public class Staff extends Mass {
                 }
                 System.out.println("Top" + y1 + " " + Staff.this.yTop()); //test
                 int d = Math.abs(y1 - Staff.this.yTop()) + Math.abs(y2 - Staff.this.yBot());
-                return (d < 50) ? d : UC.noBid;
+                return (d < 50) ? d + UC.Bar2MarginSnap: UC.noBid;
             }
             public void act(Gesture gesture) {
-                new Bar(Staff.this.sys, gesture.vs.xM());
+                int x = gesture.vs.xM();
+                if (Math.abs(x - PAGE.margins.right) < UC.Bar2MarginSnap){ //close the right boundary of staff
+                    x = PAGE.margins.right;
+                }
+                new Bar(Staff.this.sys, x);
             }
         });
     }
@@ -43,7 +47,7 @@ public class Staff extends Mass {
     //-------------Fmt----------------
     public static class Fmt {
         public int nLines = 5;
-        public int H = 8;
+        public int H = UC.defaultStaffSpace;
 
         public int height() {
             return 2 * H * (nLines - 1);
