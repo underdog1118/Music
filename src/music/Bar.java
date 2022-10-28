@@ -40,13 +40,27 @@ public class Bar extends Mass {
             }
         });
         
-        addReaction(new Reaction("S-S") { // set bar continue
-            // TODO: 10/25/22  
-            public int bid(Gesture gesture) {
-                return 0;
-            }
-            public void act(Gesture gesture) {
+//        addReaction(new Reaction("S-S") { // set bar continue
+//            // TODO: 10/25/22
+//            public int bid(Gesture gesture) {
+//                return 0;
+//            }
+//            public void act(Gesture gesture) {
+//
+//            }
+//        });
 
+        addReaction(new Reaction("DOT") {
+            public int bid(Gesture gesture) {
+                int x = gesture.vs.xM(), y = gesture.vs.yM();
+                if (y <Bar.this.sys.yTop()|| y > Bar.this.sys.yBot()) {return  UC.noBid;}
+                int dist = Math.abs(x - Bar.this.x) ;
+                if (dist > 3 *UC.defaultStaffSpace) {return UC.noBid;}
+                return dist;
+            }
+
+            public void act(Gesture gesture) {
+                if(gesture.vs.xM() < Bar.this.x) {Bar.this.toggleLeft();} else{Bar.this.toggleRight();}
             }
         });
     }
@@ -67,20 +81,40 @@ public class Bar extends Mass {
     }
 
     public void show(Graphics g) {
-        int yTop = sys.yTop(), N = sys.fmt.size();
-        if (barType == 0) {
-            g.setColor(Color.black);
-        }
-        if (barType == 1) {
-            g.setColor(Color.red);
-        }
-        if (barType == 2) {
-            g.setColor(Color.green);
-        }
+        int sysTop = sys.yTop(), N = sys.fmt.size(), y1 = 0, y2 = 0; // y1, y2 is tip and bottom of connected component
+        boolean justSawBreak = true;
+//        if (barType == 0) {
+//            g.setColor(Color.black);
+//        }
+//        if (barType == 1) {
+//            g.setColor(Color.red);
+//        }
+//        if (barType == 2) {
+//            g.setColor(Color.green);
+//        }
         for (int i = 0; i < N; i++) {
             Staff.Fmt sf = sys.fmt.get(i);
-            int topLine = yTop + sys.fmt.staffOffset.get(i);
-            g.drawLine(x, topLine, x, topLine + sf.height());
+//            int topLine = yTop + sys.fmt.staffOffset.get(i);
+//            g.drawLine(x, topLine, x, topLine + sf.height()); //?
+            int staffTop = sysTop + sys.fmt.staffOffset.get(i);
+            if (justSawBreak) {y1 = staffTop;}
+            y2 = staffTop + sf.height();
+            if (!sf.barContinues) {drawLines(g, y1, y2);}
+            justSawBreak = !sf.barContinues;
+            if (barType > 3) {drawDots(g, x, staffTop);}
+
+        }
+    }
+
+    public void drawLines(Graphics g, int y1, int y2) {
+        int H = UC.defaultStaffSpace;
+        if (barType == 0) {thinBar(g, x, y1, y2);}
+        if (barType == 1) {thinBar(g, x, y1, y2); thinBar(g, x - H, y1, y2);}
+        if (barType == 2) {fatBar(g, x - H, y1, y2, H); thinBar(g, x - 2 * H, y1, y2);}
+        if (barType >= 4) {
+            fatBar(g, x - H, y1, y2, H); //all repeats fatBars
+            if ((barType & LEFT) != 0){thinBar(g, x - 2 * H, y1, y2); wings(g, x-2 * H, y1, y2, -H, H);}
+            if ((barType & RIGHT) != 0){thinBar(g, x + H, y1, y2); wings(g, x+H, y1, y2, H, H);}
         }
     }
 
@@ -104,8 +138,8 @@ public class Bar extends Mass {
             g.fillOval(x - 3 * H, top + (19 * H) / 4, H/2, H/2 );
         }
         if ((barType & RIGHT) != 0){
-            g.fillOval(x + 3 * H, top + (11 * H) / 4, H/2, H/2 );
-            g.fillOval(x + 3 * H, top + (19 * H) / 4, H/2, H/2 );
+            g.fillOval(x + H + H/2, top + (11 * H) / 4, H/2, H/2 );
+            g.fillOval(x + H + H/2, top + (19 * H) / 4, H/2, H/2 );
         }        
     }
 }
