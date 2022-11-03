@@ -14,5 +14,7 @@ public class UC {
     public static final int noBid = 1000;
     public static final int Bar2MarginSnap = 20;
     public static final int defaultStaffSpace = 8;
-    public static final String FontName = "Sinforia";
+    public static final String FontName = "Sinfonia";
+    public static final int snapTime = 50;
+
 }

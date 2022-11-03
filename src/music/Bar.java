@@ -83,7 +83,7 @@ public class Bar extends Mass {
     public void show(Graphics g) {
         int sysTop = sys.yTop(), N = sys.fmt.size(), y1 = 0, y2 = 0; // y1, y2 is tip and bottom of connected component
         boolean justSawBreak = true;
-//        if (barType == 0) {
+//        if (barType == 0) { // different color
 //            g.setColor(Color.black);
 //        }
 //        if (barType == 1) {
