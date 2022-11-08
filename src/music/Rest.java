@@ -35,12 +35,24 @@ public class Rest extends Duration {
                 Rest.this.decFlag();
             }
         });
+
+        addReaction(new Reaction("DOT") {
+            public int bid(Gesture gesture) {
+                int xr = Rest.this.time.x, yr = Rest.this.y();
+                int x = gesture.vs.xM(), y = gesture.vs.yM();
+                if (x < xr || x >xr + 40 || y < yr - 40 || y > yr + 40) {return UC.noBid;}
+                return (Math.abs(x - xr) + Math.abs(y - yr));
+            }
+            public void act(Gesture gesture) {
+                Rest.this.cycleDot();
+            }
+        });
     }
     public int y() {return staff.yLine(line);}
 
     @Override
     public void show(Graphics g) {
-        int H = staff.fmt.H, y = y();
+        int H = staff.fmt.H, y = y(), off = UC.augDotOffset, sp = UC.augDotSpace;
         if (nFlag == -2) {Glyph.REST_W.showAt(g, H, time.x, y);}
         if (nFlag == -1) {Glyph.REST_H.showAt(g, H, time.x, y);}
         if (nFlag == 0) {Glyph.REST_Q.showAt(g, H, time.x, y);}
@@ -48,5 +60,8 @@ public class Rest extends Duration {
         if (nFlag == 2) {Glyph.REST_2F.showAt(g, H, time.x, y);}
         if (nFlag == 3) {Glyph.REST_3F.showAt(g, H, time.x, y);}
         if (nFlag == 4) {Glyph.REST_4F.showAt(g, H, time.x, y);}
+        for (int i = 0; i < nDot; i++) {
+            g.fillOval(time.x + off + i*sp, y - 3*H/2, H*2/3, H*2/3);
+        }
     }
 }

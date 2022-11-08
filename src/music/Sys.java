@@ -6,7 +6,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static sandbox.Music.PAGE;
-
 public class Sys extends Mass {
     public ArrayList<Staff> staffs = new ArrayList<>();
     public Page page;

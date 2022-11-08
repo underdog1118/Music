@@ -80,6 +80,20 @@ public class Staff extends Mass {
                 new Rest(Staff.this, t);
             }
         });
+
+        addReaction(new Reaction("E-S") {  //add an Eighth rest
+            public int bid(Gesture gesture) {
+                int x = gesture.vs.xL(), y = gesture.vs.yL();
+                if (x < PAGE.margins.left || x > PAGE.margins.right) {return UC.noBid;}
+                int H = Staff.this.fmt.H, top = Staff.this.yTop(), bot = Staff.this.yBot();
+                if (y < top || y > bot){return UC.noBid;} //null
+                return 10;
+            }
+            public void act(Gesture gesture) {
+                Time t = Staff.this.sys.getTime(gesture.vs.xL());
+                (new Rest(Staff.this, t)).incFlag();
+            }
+        });
     }
 
 
