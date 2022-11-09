@@ -1,6 +1,5 @@
 package reaction;
 
-import graphics.G;
 import music.I;
 
 import java.awt.*;
@@ -15,7 +14,7 @@ public abstract class Mass extends Reaction.List implements I.Show{
             System.out.println("Bad layer name" + layerName);
         }
     }
-    public void delete() {
+    public void deleteMass() {
         clearAll();
         layer.remove(this);
     }
