@@ -52,9 +52,9 @@ public class Music extends Window {
 //            Glyph.CLEF_G.showAt(g, 8, 100, PAGE.margins.top + 4*8); //乐符1
 //            Glyph.HEAD_HALF.showAt(g, 8, 200, PAGE.margins.top + 4 * 8); //乐符2
 //        }
-        int H = 32, y = 100 + 4*H;
-        Glyph.HEAD_Q.showAt(g, H, 200, y);
-        g.drawRect(200, y - H , 24/10*H, 2*H);
+//        int H = 32, y = 100 + 4*H;
+//        Glyph.HEAD_Q.showAt(g, H, 200, y);
+//        g.drawRect(200, y - H , 24/10*H, 2*H);
     }
     @Override
     public void mousePressed(MouseEvent me){Gesture.AREA.dn(me.getX(), me.getY()); repaint();}
