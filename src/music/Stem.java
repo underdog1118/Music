@@ -4,13 +4,18 @@ import reaction.Gesture;
 import reaction.Reaction;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Collections;
 
-public class Stem extends Duration{
+public class Stem extends Duration implements Comparable<Stem> {
     public Head.List heads = new Head.List();
     public boolean isUp = true;
-    public Stem(boolean up) {
-        isUp = up;
+
+    public Sys sys;
+    public Beam beam = null;
+    public Stem(Sys sys, boolean up) {
+        this.isUp = up;
+        this.sys = sys;
 
         addReaction(new Reaction("E-E") {   // increment flag on stem
             @Override
@@ -81,7 +86,10 @@ public class Stem extends Duration{
         return h.time.x + (isUp ? h.w() : 0);
     }
 
-    public void deleteStem() {deleteMass();}
+    public void deleteStem() {
+        deleteMass();
+        sys.stems.remove(this);
+    }
     public void setWrongSides() {
         Collections.sort(heads);
         int i, last, inc;
@@ -96,4 +104,20 @@ public class Stem extends Duration{
         }
     }
 
+    @Override
+    public int compareTo(Stem s) {return x() - s.x();}
+
+    //--------------------List-----------------------
+    public static class List extends ArrayList<Stem> {
+        public int yMin = 1000000, yMax = -1000000;
+        public void addStem(Stem s) {
+            add(s);
+            if (s.yLo() < yMin) {yMin = s.yLo();}
+            if (s.yHi() > yMax) {yMin = s.yHi();}
+        }
+        public boolean fastReject(int y1, int y2) {
+            return  y1 > yMax || y2 < yMin;
+        }
+        public void sort() {Collections.sort(this);}
+    }
 }

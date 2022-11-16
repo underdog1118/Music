@@ -11,6 +11,7 @@ public class Sys extends Mass {
     public Page page;
     public int iSys;
     public Sys.Fmt fmt;
+    public Stem.List stems = new Stem.List();
 
     public Time.List times;
 
@@ -38,7 +39,7 @@ public class Sys extends Mass {
         g.drawLine(x, y, x, y + fmt.height());
     }
 
-    //------------Fnt---------------
+    //-------------------Fnt------------------
     public static class Fmt extends ArrayList<Staff.Fmt>{
         public ArrayList<Integer> staffOffset = new ArrayList<>();
 
