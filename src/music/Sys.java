@@ -1,6 +1,8 @@
 package music;
 
+import reaction.Gesture;
 import reaction.Mass;
+import reaction.Reaction;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -24,6 +26,43 @@ public class Sys extends Mass {
         for (int i = 0; i < fmt.size(); i++) {
             addStaff(new Staff(this, i, fmt.get(i))); //add new line in new staffs
         }
+
+        addReaction(new Reaction("E-E") { //add beam
+            @Override
+            public int bid(Gesture gesture) {
+                int x1 = gesture.vs.xL(), y1 = gesture.vs.yL();
+                int x2 = gesture.vs.xH(), y2 = gesture.vs.yH();
+                if (stems.fastReject(y1, y2)) {  // ？
+                    return UC.noBid;
+                }
+                ArrayList<Stem> temp = stems.allIntersectors(x1, y1, x2, y2);
+                if (temp.size() < 2) {return UC.noBid;}
+                System.out.println("Crossed" + temp.size() + " stems");
+                Beam beam = temp.get(0).beam;
+                for (Stem s : temp) {if (s.beam != beam) {return UC.noBid;}}
+                System.out.println("All stems share beam");
+                if (beam == null && temp.size() != 2) {return UC.noBid;}
+                if (beam == null && (temp.get(0).nFlag != 0 || temp.get(1).nFlag != 0)) {
+                    return UC.noBid;
+                }
+                return 50;
+            }
+
+            @Override
+            public void act(Gesture gesture) {
+                int x1 = gesture.vs.xL(), y1 = gesture.vs.yL();
+                int x2 = gesture.vs.xH(), y2 = gesture.vs.yH();
+                ArrayList<Stem> temp = stems.allIntersectors(x1, y1, x2, y2);
+                Beam beam = temp.get(0).beam;
+                if (beam == null) {
+                    new Beam(temp.get(0), temp.get(1));
+                } else {
+                    for (Stem s : temp) {
+                        s.incFlag();
+                    }
+                }
+            }
+        });
     }
     public void addStaff(Staff s){ //add new lines in the new staff
         staffs.add(s);

@@ -12,6 +12,7 @@ public class Staff extends Mass {
     public Sys sys;
     public int iStaff;
     public Staff.Fmt fmt;
+    public Clef initialClef = new Clef(null, this, Clef.INITIALX);
 
     public Staff(Sys sys, int iStaff, Staff.Fmt fmt){
         super("BACK");
@@ -92,6 +93,44 @@ public class Staff extends Mass {
             public void act(Gesture gesture) {
                 Time t = Staff.this.sys.getTime(gesture.vs.xL());
                 (new Rest(Staff.this, t)).incFlag();
+            }
+        });
+
+        addReaction(new Reaction("SW-SE") {  //G-Clef
+            @Override
+            public int bid(Gesture gesture) {
+                int yG = gesture.vs.yM(), y1 = Staff.this.yTop(), y2 = Staff.this.yBot();
+                if (yG > y2 || yG < y1) {return UC.noBid;}
+                int d = Math.abs(y1 - gesture.vs.yL()) + Math.abs(y2 - gesture.vs.yH());
+                if (d > 100) {return UC.noBid;}
+                return d;
+            }
+            @Override
+            public void act(Gesture gesture) {
+                if (Staff.this.initialClef.glyph == null) {
+                    Clef.setInitialClefs(Staff.this, Glyph.CLEF_G);
+                }else {
+                    new Clef(Glyph.CLEF_G, Staff.this, gesture.vs.xM());
+                }
+            }
+        });
+
+        addReaction(new Reaction("SE-SW") {  //F-Clef
+            @Override
+            public int bid(Gesture gesture) {
+                int yG = gesture.vs.yM(), y1 = Staff.this.yTop(), y2 = Staff.this.yBot();
+                if (yG > y2 || yG < y1) {return UC.noBid;}
+                int d = Math.abs(y1 - gesture.vs.yL()) + Math.abs(y2 - gesture.vs.yH());
+                if (d > 100) {return UC.noBid;}
+                return d;
+            }
+            @Override
+            public void act(Gesture gesture) {
+                if (Staff.this.initialClef.glyph == null) {
+                    Clef.setInitialClefs(Staff.this, Glyph.CLEF_F);
+                }else {
+                    new Clef(Glyph.CLEF_F, Staff.this, gesture.vs.xM());
+                }
             }
         });
     }

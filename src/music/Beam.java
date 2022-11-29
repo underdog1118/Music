@@ -22,6 +22,16 @@ public class Beam extends Mass {
         addStem(l);
     }
 
+    public static boolean verticalLineCrossSegment(int x, int y1, int y2, int bX, int bY, int eX, int eY) {
+        if (x < bX || x > eX) {return false;}
+        int y = yOfX(x, bX, bY, eX, eY);
+        if (y1 < y2) {
+            return y1 < y && y < y2;
+        } else {
+            return y2 < y && y < y1;
+        }
+    }
+
     public void show(Graphics g) {
         g.setColor(Color.black);
         drawBeamGroup(g);
@@ -104,6 +114,15 @@ public class Beam extends Mass {
         for (int i = n1; i < n2; i++) {
             setPoly(x1, y1 + i*2*h, x2, y2 + i*2*h, h);
             g.fillPolygon(poly);
+        }
+    }
+
+    public void removeStem(Stem stem) {
+        if (stem == first() || stem == last()) {
+            deleteBeam();
+        }else {
+            stems.remove(stem);
+            stems.sort();
         }
     }
 }
